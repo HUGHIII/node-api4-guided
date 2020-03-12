@@ -1,3 +1,5 @@
+require("dotenv").config();
+//read from a .env file located at root level
 const server = require("./api/server.js");
 
 const port = process.env.PORT || 5000;
