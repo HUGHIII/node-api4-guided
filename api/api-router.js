@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 
 const Shouts = require("../shouts/shouts-model.js");
 
@@ -7,28 +8,28 @@ const router = express.Router();
 router.use(express.json());
 
 router.get("/", (req, res) => {
-  const environment = process.env;
+  const environment = process.env.MESSAGE;
   const port = process.env.PORT || 5000;
   res.status(200).json({ api: "up", port, environment });
 });
 
 router.get("/shouts", (req, res, next) => {
   Shouts.find()
-    .then(shouts => {
+    .then((shouts) => {
       res.status(200).json({
         motd: process.env.MOTD,
-        shouts
+        shouts,
       });
     })
-    .catch(error => next(error));
+    .catch((error) => next(error));
 });
 
 router.post("/shouts", (req, res, next) => {
   Shouts.add(req.body)
-    .then(shout => {
+    .then((shout) => {
       res.status(201).json(shout);
     })
-    .catch(error => next(error));
+    .catch((error) => next(error));
 });
 
 router.use(errorHandler);
